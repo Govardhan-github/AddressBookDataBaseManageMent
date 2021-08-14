@@ -1,1 +1,31 @@
 Welcome To AddressBook DataBase Management
+-------------------------------------------//UC1
+Creating AddressBook DataBase 
+---------------------------------------
+mysql> create database AddressBook
+    -> ^C
+mysql> create database AddressBook;
+Query OK, 1 row affected (0.59 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| addressbook        |
+| information_schema |
+| mysql              |
+| payroll_service    |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.73 sec)
+
+mysql> use addressbook
+Database changed
+mysql> select database();
++-------------+
+| database()  |
++-------------+
+| addressbook |
++-------------+
+1 row in set (0.00 sec)
