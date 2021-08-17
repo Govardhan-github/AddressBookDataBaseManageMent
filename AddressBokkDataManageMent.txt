@@ -1,5 +1,6 @@
 Welcome To AddressBook DataBase Management
--------------------------------------------//UC1
+-------------------------------------------
+//UC1
 Creating AddressBook DataBase 
 ---------------------------------------
 mysql> create database AddressBook
@@ -29,3 +30,305 @@ mysql> select database();
 | addressbook |
 +-------------+
 1 row in set (0.00 sec)
+-----------------------------------------
+//UC2
+-----------------------------------------
+mysql> create table addressbook
+    -> (
+    -> firstname        VARCHAR(150) NOT NULL,
+    -> lastname         VARCHAR(150) NOT NULL,
+    -> address          VARCHAR(150) NOT NULL,
+    -> city             VARCHAR(150) NOT NULL,
+    -> state            VARCHAR(150) NOT NULL,
+    -> zip              INT NOT NULL,
+    -> phonenumber      INT NOT NULL,
+    -> email            VARCHAR(150) NOT NULL
+    -> );
+Query OK, 0 rows affected (1.53 sec)
+
+mysql> describe addressbook;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| firstname   | varchar(150) | NO   |     | NULL    |       |
+| lastname    | varchar(150) | NO   |     | NULL    |       |
+| address     | varchar(150) | NO   |     | NULL    |       |
+| city        | varchar(150) | NO   |     | NULL    |       |
+| state       | varchar(150) | NO   |     | NULL    |       |
+| zip         | int          | NO   |     | NULL    |       |
+| phonenumber | int          | NO   |     | NULL    |       |
+| email       | varchar(150) | NO   |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+8 rows in set (0.31 sec)
+------------------------------------------------
+//UC3
+------------------------------------------------
+mysql> INSERT INTO address_book(firstname,lastname,address,city,state,zip,phonenumber,email) VALUES
+    -> ('Govardhan', 'Bajjuri', 'Kodad', 'Hyderabad', 'Telangana', '508204', '9666110767', 'govardhanbajjuri@gmail.com'),
+    -> ('Nikhila', 'Yekula', 'BNReddy', 'Hyderabad', 'Telangana', '500039', '9848886983', 'Nikhila@gmail.com'),
+    -> ('Shirisha', 'Alugubelli', 'Miryalguda', 'Nalgonda', 'Telangana', '508204', '8341038298', 'siri@gmail.com'),
+    -> ('Sandeep', 'Gottemukkula', 'Athmakur', 'Suryapeta', 'Telangana','508145', '9966077389', 'Sandeep@gmail.com'),
+    -> ('Nandu', 'Bajjuri', 'Kodad', 'Hyderabad', 'Telangana', '508204', '9347984812', 'nandu@gmail.com');
+Query OK, 5 rows affected (0.40 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> describe address_book;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| firstname   | varchar(150) | NO   |     | NULL    |       |
+| lastname    | varchar(150) | NO   |     | NULL    |       |
+| address     | varchar(150) | NO   |     | NULL    |       |
+| city        | varchar(150) | NO   |     | NULL    |       |
+| state       | varchar(150) | NO   |     | NULL    |       |
+| zip         | int          | NO   |     | NULL    |       |
+| phonenumber | varchar(150) | NO   |     | NULL    |       |
+| email       | varchar(150) | NO   |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+8 rows in set (0.04 sec)
+
+mysql> select * from address_book;
++-----------+--------------+------------+-----------+-----------+--------+-------------+----------------------------+
+| firstname | lastname     | address    | city      | state     | zip    | phonenumber | email                      |
++-----------+--------------+------------+-----------+-----------+--------+-------------+----------------------------+
+| Govardhan | Bajjuri      | Kodad      | Hyderabad | Telangana | 508204 | 9666110767  | govardhanbajjuri@gmail.com |
+| Nikhila   | Yekula       | BNReddy    | Hyderabad | Telangana | 500039 | 9848886983  | Nikhila@gmail.com          |
+| Shirisha  | Alugubelli   | Miryalguda | Nalgonda  | Telangana | 508204 | 8341038298  | siri@gmail.com             |
+| Sandeep   | Gottemukkula | Athmakur   | Suryapeta | Telangana | 508145 | 9966077389  | Sandeep@gmail.com          |
+| Nandu     | Bajjuri      | Kodad      | Hyderabad | Telangana | 508204 | 9347984812  | nandu@gmail.com            |
++-----------+--------------+------------+-----------+-----------+--------+-------------+----------------------------+
+5 rows in set (0.10 sec)
+--------------------------------------------------
+//UC4
+--------------------------------------------------
+mysql> update address_book set address = 'Bethavole' where firstname='Govardhan'
+    -> ^C
+mysql> update address_book set address = 'Bethavole' where firstname='Govardhan';
+Query OK, 1 row affected (0.21 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from address_book;
++-----------+--------------+------------+-----------+-----------+--------+-------------+----------------------------+
+| firstname | lastname     | address    | city      | state     | zip    | phonenumber | email                      |
++-----------+--------------+------------+-----------+-----------+--------+-------------+----------------------------+
+| Govardhan | Bajjuri      | Bethavole  | Hyderabad | Telangana | 508204 | 9666110767  | govardhanbajjuri@gmail.com |
+| Nikhila   | Yekula       | BNReddy    | Hyderabad | Telangana | 500039 | 9848886983  | Nikhila@gmail.com          |
+| Shirisha  | Alugubelli   | Miryalguda | Nalgonda  | Telangana | 508204 | 8341038298  | siri@gmail.com             |
+| Sandeep   | Gottemukkula | Athmakur   | Suryapeta | Telangana | 508145 | 9966077389  | Sandeep@gmail.com          |
+| Nandu     | Bajjuri      | Kodad      | Hyderabad | Telangana | 508204 | 9347984812  | nandu@gmail.com            |
++-----------+--------------+------------+-----------+-----------+--------+-------------+----------------------------+
+5 rows in set (0.10 sec)
+----------------------------------------------
+//UC5
+---------------------------------------------
+mysql> delete from addressbook where firstname = 'nandu'
+    -> ^C
+mysql> delete from addressbook where firstname = 'nandu';
+ERROR 1146 (42S02): Table 'addressbook.addressbook' doesn't exist
+mysql> delete from address_book where firstname = 'nandu';
+Query OK, 1 row affected (0.20 sec)
+
+mysql> select * from address_book;
++-----------+--------------+------------+-----------+-----------+--------+-------------+----------------------------+
+| firstname | lastname     | address    | city      | state     | zip    | phonenumber | email                      |
++-----------+--------------+------------+-----------+-----------+--------+-------------+----------------------------+
+| Govardhan | Bajjuri      | Bethavole  | Hyderabad | Telangana | 508204 | 9666110767  | govardhanbajjuri@gmail.com |
+| Nikhila   | Yekula       | BNReddy    | Hyderabad | Telangana | 500039 | 9848886983  | Nikhila@gmail.com          |
+| Shirisha  | Alugubelli   | Miryalguda | Nalgonda  | Telangana | 508204 | 8341038298  | siri@gmail.com             |
+| Sandeep   | Gottemukkula | Athmakur   | Suryapeta | Telangana | 508145 | 9966077389  | Sandeep@gmail.com          |
++-----------+--------------+------------+-----------+-----------+--------+-------------+----------------------------+
+4 rows in set (0.09 sec)
+--------------------------------------------------
+//UC6
+--------------------------------------------------
+mysql> select firstname from address_book where city = 'Hyderabad';
++-----------+
+| firstname |
++-----------+
+| Govardhan |
+| Nikhila   |
++-----------+
+2 rows in set (0.00 sec)
+
+mysql> select firstname from address_book where city = 'Nalgonda';
++-----------+
+| firstname |
++-----------+
+| Shirisha  |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select phonenumber from address_book where city = 'Hyderabad';
++-------------+
+| phonenumber |
++-------------+
+| 9666110767  |
+| 9848886983  |
++-------------+
+2 rows in set (0.00 sec)
+---------------------------------------------------------
+//UC7
+---------------------------------------------------------
+mysql> SELECT state, COUNT(firstname) FROM address_book WHERE state = 'Telangana';
++-----------+------------------+
+| state     | COUNT(firstname) |
++-----------+------------------+
+| Telangana |                4 |
++-----------+------------------+
+1 row in set (0.13 sec)
+
+mysql> SELECT state, COUNT(firstname) FROM address_book WHERE state = 'Hyderabad';
++-------+------------------+
+| state | COUNT(firstname) |
++-------+------------------+
+| NULL  |                0 |
++-------+------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT city, COUNT(firstname) FROM address_book WHERE city = 'Hyderabad';
++-----------+------------------+
+| city      | COUNT(firstname) |
++-----------+------------------+
+| Hyderabad |                2 |
++-----------+------------------+
+1 row in set (0.00 sec)
+---------------------------------------------------
+//UC8
+---------------------------------------------------
+mysql>  SELECT firstname, lastname, address, city, state, zip, phonenumber, email FROM address_book ORDER BY firstname;
++-----------+--------------+------------+-----------+-----------+--------+-------------+----------------------------+
+| firstname | lastname     | address    | city      | state     | zip    | phonenumber | email                      |
++-----------+--------------+------------+-----------+-----------+--------+-------------+----------------------------+
+| Govardhan | Bajjuri      | Bethavole  | Hyderabad | Telangana | 508204 | 9666110767  | govardhanbajjuri@gmail.com |
+| Nikhila   | Yekula       | BNReddy    | Hyderabad | Telangana | 500039 | 9848886983  | Nikhila@gmail.com          |
+| Sandeep   | Gottemukkula | Athmakur   | Suryapeta | Telangana | 508145 | 9966077389  | Sandeep@gmail.com          |
+| Shirisha  | Alugubelli   | Miryalguda | Nalgonda  | Telangana | 508204 | 8341038298  | siri@gmail.com             |
++-----------+--------------+------------+-----------+-----------+--------+-------------+----------------------------+
+4 rows in set (0.09 sec)
+--------------------------------------------------
+//UC9
+--------------------------------------------------
+mysql> ALTER TABLE address_book ADD type VARCHAR(150) AFTER email;
+Query OK, 0 rows affected (1.97 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe address_book;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| firstname   | varchar(150) | NO   |     | NULL    |       |
+| lastname    | varchar(150) | NO   |     | NULL    |       |
+| address     | varchar(150) | NO   |     | NULL    |       |
+| city        | varchar(150) | NO   |     | NULL    |       |
+| state       | varchar(150) | NO   |     | NULL    |       |
+| zip         | int          | NO   |     | NULL    |       |
+| phonenumber | varchar(150) | NO   |     | NULL    |       |
+| email       | varchar(150) | NO   |     | NULL    |       |
+| type        | varchar(150) | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+9 rows in set (0.05 sec)
+mysql> update address_book set type = 'family' where firstname = 'Shirisha';
+Query OK, 1 row affected (0.09 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update address_book set type = 'family' where firstname = 'Govardhan';
+Query OK, 1 row affected (0.21 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from address_book;
++-----------+--------------+------------+-----------+-----------+--------+-------------+----------------------------+--------+
+| firstname | lastname     | address    | city      | state     | zip    | phonenumber | email                      | type   |
++-----------+--------------+------------+-----------+-----------+--------+-------------+----------------------------+--------+
+| Govardhan | Bajjuri      | Bethavole  | Hyderabad | Telangana | 508204 | 9666110767  | govardhanbajjuri@gmail.com | family |
+| Nikhila   | Yekula       | BNReddy    | Hyderabad | Telangana | 500039 | 9848886983  | Nikhila@gmail.com          | NULL   |
+| Shirisha  | Alugubelli   | Miryalguda | Nalgonda  | Telangana | 508204 | 8341038298  | siri@gmail.com             | family |
+| Sandeep   | Gottemukkula | Athmakur   | Suryapeta | Telangana | 508145 | 9966077389  | Sandeep@gmail.com          | NULL   |
++-----------+--------------+------------+-----------+-----------+--------+-------------+----------------------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> update address_book set type = 'friend' where firstname = 'Sandeep';
+Query OK, 1 row affected (0.22 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update address_book set type = 'professional' where firstname = 'Nikhila';
+Query OK, 1 row affected (0.10 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from address_book;
++-----------+--------------+------------+-----------+-----------+--------+-------------+----------------------------+--------------+
+| firstname | lastname     | address    | city      | state     | zip    | phonenumber | email                      | type         |
++-----------+--------------+------------+-----------+-----------+--------+-------------+----------------------------+--------------+
+| Govardhan | Bajjuri      | Bethavole  | Hyderabad | Telangana | 508204 | 9666110767  | govardhanbajjuri@gmail.com | family       |
+| Nikhila   | Yekula       | BNReddy    | Hyderabad | Telangana | 500039 | 9848886983  | Nikhila@gmail.com          | professional |
+| Shirisha  | Alugubelli   | Miryalguda | Nalgonda  | Telangana | 508204 | 8341038298  | siri@gmail.com             | family       |
+| Sandeep   | Gottemukkula | Athmakur   | Suryapeta | Telangana | 508145 | 9966077389  | Sandeep@gmail.com          | friend       |
++-----------+--------------+------------+-----------+-----------+--------+-------------+----------------------------+--------------+
+4 rows in set (0.00 sec)
+------------------------------------------
+//UC10
+------------------------------------------
+mysql> SELECT type, COUNT(firstname) FROM address_book WHERE type = 'Family';
++--------+------------------+
+| type   | COUNT(firstname) |
++--------+------------------+
+| family |                2 |
++--------+------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT type, COUNT(firstname) FROM address_book WHERE type = 'Friend';
++--------+------------------+
+| type   | COUNT(firstname) |
++--------+------------------+
+| friend |                1 |
++--------+------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT type, COUNT(firstname) FROM address_book WHERE type = 'professional';
++--------------+------------------+
+| type         | COUNT(firstname) |
++--------------+------------------+
+| professional |                1 |
++--------------+------------------+
+1 row in set (0.00 sec)
+----------------------------------------------
+UC11
+----------------------------------------------
+mysql> INSERT INTO address_book(firstname,lastname,address,city,state,zip,phonenumber,email) VALUES
+    -> ('Nandu', 'Bajjuri', 'Kodad', 'Hyderabad', 'Telangana', '508204', '9347984812', 'nandu@gmail.com'),
+    -> ('Akhil','Thrumani','Bethavole', 'Hyderabad', 'Telangana', '508204', '8974265139','akhil@gmail.com');
+Query OK, 2 rows affected (0.15 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from address_book;
++-----------+--------------+------------+-----------+-----------+--------+-------------+----------------------------+--------------+
+| firstname | lastname     | address    | city      | state     | zip    | phonenumber | email                      | type         |
++-----------+--------------+------------+-----------+-----------+--------+-------------+----------------------------+--------------+
+| Govardhan | Bajjuri      | Bethavole  | Hyderabad | Telangana | 508204 | 9666110767  | govardhanbajjuri@gmail.com | family       |
+| Nikhila   | Yekula       | BNReddy    | Hyderabad | Telangana | 500039 | 9848886983  | Nikhila@gmail.com          | professional |
+| Shirisha  | Alugubelli   | Miryalguda | Nalgonda  | Telangana | 508204 | 8341038298  | siri@gmail.com             | family       |
+| Sandeep   | Gottemukkula | Athmakur   | Suryapeta | Telangana | 508145 | 9966077389  | Sandeep@gmail.com          | friend       |
+| Nandu     | Bajjuri      | Kodad      | Hyderabad | Telangana | 508204 | 9347984812  | nandu@gmail.com            | NULL         |
+| Akhil     | Thrumani     | Bethavole  | Hyderabad | Telangana | 508204 | 8974265139  | akhil@gmail.com            | NULL         |
++-----------+--------------+------------+-----------+-----------+--------+-------------+----------------------------+--------------+
+6 rows in set (0.11 sec)
+
+mysql> update address_book set type = 'friend' where firstname = 'Akhil';
+Query OK, 1 row affected (0.55 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql>  update address_book set type = 'family' where firstname = 'Nandu';
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from address_book;
++-----------+--------------+------------+-----------+-----------+--------+-------------+----------------------------+--------------+
+| firstname | lastname     | address    | city      | state     | zip    | phonenumber | email                      | type         |
++-----------+--------------+------------+-----------+-----------+--------+-------------+----------------------------+--------------+
+| Govardhan | Bajjuri      | Bethavole  | Hyderabad | Telangana | 508204 | 9666110767  | govardhanbajjuri@gmail.com | family       |
+| Nikhila   | Yekula       | BNReddy    | Hyderabad | Telangana | 500039 | 9848886983  | Nikhila@gmail.com          | professional |
+| Shirisha  | Alugubelli   | Miryalguda | Nalgonda  | Telangana | 508204 | 8341038298  | siri@gmail.com             | family       |
+| Sandeep   | Gottemukkula | Athmakur   | Suryapeta | Telangana | 508145 | 9966077389  | Sandeep@gmail.com          | friend       |
+| Nandu     | Bajjuri      | Kodad      | Hyderabad | Telangana | 508204 | 9347984812  | nandu@gmail.com            | family       |
+| Akhil     | Thrumani     | Bethavole  | Hyderabad | Telangana | 508204 | 8974265139  | akhil@gmail.com            | friend       |
++-----------+--------------+------------+-----------+-----------+--------+-------------+----------------------------+--------------+
+6 rows in set (0.00 sec)
