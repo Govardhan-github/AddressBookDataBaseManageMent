@@ -332,3 +332,148 @@ mysql> select * from address_book;
 | Akhil     | Thrumani     | Bethavole  | Hyderabad | Telangana | 508204 | 8974265139  | akhil@gmail.com            | friend       |
 +-----------+--------------+------------+-----------+-----------+--------+-------------+----------------------------+--------------+
 6 rows in set (0.00 sec)
+-------------------------------
+UC12
+-------------------------------
+
+mysql> create table person_contact
+    -> (
+    -> firstname       varchar(30) NOT NULL,
+    -> lastname       varchar(30) NOT NULL,
+    -> address          varchar(130) NOT NULL,
+    -> phonenumber     BIGINT NOT NULL,
+    -> email            varchar(50),
+    -> primary key      (first_name)
+    -> );
+ERROR 1072 (42000): Key column 'first_name' doesn't exist in table
+mysql> create table person_contact
+    -> (
+    -> firstname       varchar(30) NOT NULL,
+    -> lastname       varchar(30) NOT NULL,
+    -> address          varchar(130) NOT NULL,
+    -> phonenumber     BIGINT NOT NULL,
+    -> email            varchar(50),
+    -> primary key      (firstname)
+    -> );
+Query OK, 0 rows affected (2.55 sec)
+
+mysql> describe person_contact;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| firstname   | varchar(30)  | NO   | PRI | NULL    |       |
+| lastname    | varchar(30)  | NO   |     | NULL    |       |
+| address     | varchar(130) | NO   |     | NULL    |       |
+| phonenumber | bigint       | NO   |     | NULL    |       |
+| email       | varchar(50)  | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+5 rows in set (0.14 sec)
+
+mysql>  create table person_address
+    ->     -> (
+    ->     -> zip      INT(6) NOT NULL,
+    ->     -> city     varchar(30) NOT NULL,
+    ->     -> state    varchar(30) NOT NULL,
+    ->     -> primary key (zip)
+    ->     -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-> (
+    -> zip      INT(6) NOT NULL,
+    -> city     varchar(30) NOT NULL,
+    ' at line 2
+mysql>  create table person_address
+    ->  (
+    ->  zip      INT(6) NOT NULL,
+    -> city     varchar(30) NOT NULL,
+    ->  state    varchar(30) NOT NULL,
+    ->  primary key (zip)
+    -> );
+Query OK, 0 rows affected, 1 warning (0.79 sec)
+
+mysql> describe person_address;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| zip   | int         | NO   | PRI | NULL    |       |
+| city  | varchar(30) | NO   |     | NULL    |       |
+| state | varchar(30) | NO   |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql>  create table person_contact_address
+    -> (
+    -> firstname       varchar(30) NOT NULL,
+    -> zip              INT(6) NOT NULL,
+    -> foreign key(firstname) references person_contact(firstname),
+    -> foreign key(zip) references person_address(zip)
+    -> );
+Query OK, 0 rows affected, 1 warning (2.02 sec)
+
+
+mysql> insert into person_contact(firstname,lastname,address,phonenumber,email) values
+    -> ('Pavan','Yalala','ram nagar',9010578945,'pavan@gmail.com');
+Query OK, 1 row affected (0.32 sec)
+
+mysql> select * from person_conatct;
+ERROR 1146 (42S02): Table 'addressbook.person_conatct' doesn't exist
+mysql> select * from person_contact;
++-----------+----------+-----------+-------------+-----------------+
+| firstname | lastname | address   | phonenumber | email           |
++-----------+----------+-----------+-------------+-----------------+
+| Pavan     | Yalala   | ram nagar |  9010578945 | pavan@gmail.com |
++-----------+----------+-----------+-------------+-----------------+
+1 row in set (0.00 sec)
+
+mysql> insert into person_address(zip,city,state) values
+    -> (5000039,'Uppal','Telanagna');
+Query OK, 1 row affected (0.39 sec)
+
+mysql> select * from person_address;
++---------+-------+-----------+
+| zip     | city  | state     |
++---------+-------+-----------+
+| 5000039 | Uppal | Telanagna |
++---------+-------+-----------+
+1 row in set (0.00 sec)
+-----------------------------------------
+UC13
+----------------------------------------
+mysql> select * from person_contact_address;
++-----------+---------+
+| firstname | zip     |
++-----------+---------+
+| Pavan     | 5000039 |
++-----------+---------+
+1 row in set (0.00 sec)
+
+mysql> select * from person_contact;
++-----------+----------+-----------+-------------+-----------------+
+| firstname | lastname | address   | phonenumber | email           |
++-----------+----------+-----------+-------------+-----------------+
+| Pavan     | Yalala   | ram nagar |  9010578945 | pavan@gmail.com |
++-----------+----------+-----------+-------------+-----------------+
+1 row in set (0.00 sec)
+
+mysql> select * from person_contact_address;
++-----------+---------+
+| firstname | zip     |
++-----------+---------+
+| Pavan     | 5000039 |
++-----------+---------+
+1 row in set (0.00 sec)
+
+mysql> select * from person_contact_address where firstname = 'Pavan';
++-----------+---------+
+| firstname | zip     |
++-----------+---------+
+| Pavan     | 5000039 |
++-----------+---------+
+1 row in set (0.00 sec)
+
+mysql> select firstname, count(firstname) from person_contact_address group by firstname;
++-----------+------------------+
+| firstname | count(firstname) |
++-----------+------------------+
+| Pavan     |                1 |
++-----------+------------------+
+1 row in set (0.17 sec)
+
